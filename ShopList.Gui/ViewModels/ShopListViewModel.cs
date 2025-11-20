@@ -1,57 +1,27 @@
-﻿using ShopList.Gui.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using ShopList.Gui.Models;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows.Input;
 
 namespace ShopList.Gui.ViewModels
 {
-    public class ShopListViewModel : INotifyPropertyChanged
+    public partial class ShopListViewModel : ObservableObject
+
     {
+        [ObservableProperty]
         private string _nombreDelArticulo = string.Empty;
+        [ObservableProperty]
         private int _cantidad = 1;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        public string NombreDelArticulo
-        {
-            get => _nombreDelArticulo;
-            set
-            {
-                if (_nombreDelArticulo != value)
-                {
-                    _nombreDelArticulo = value;
-                    OnPropertyChanged(nameof(NombreDelArticulo));
-                }
-            }
-        }
-
-        public int Cantidad
-        {
-            get => _cantidad;
-            set
-            {
-                if (_cantidad != value)
-                {
-                    _cantidad = value;
-                    OnPropertyChanged(nameof(Cantidad));
-                }
-            }
-        }
-
         public ObservableCollection<ShopListItem> ShopList { get; }
-
-        public ICommand AddShopListItemCommand { 
-            get; 
-            private set; 
-        }
 
         public ShopListViewModel()
         {
             ShopList = new ObservableCollection<ShopListItem>();
             CargarDatos();
-            AddShopListItemCommand = new Command(AddShopListItem);
         }
 
+        [RelayCommand]
         public void AddShopListItem()
         {
             if (string.IsNullOrEmpty(NombreDelArticulo) || Cantidad <= 0)
@@ -94,14 +64,6 @@ namespace ShopList.Gui.ViewModels
                 Cantidad = 100,
                 Comprado = false,
             });
-        }
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(
-                this, 
-                new PropertyChangedEventArgs(propertyName)
-                );
         }
     }
 }
