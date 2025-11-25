@@ -54,6 +54,7 @@
                 Grid.Row="1"
                 Grid.Column="3"
                 Text="X"
+                Command="{Binding RemoveShopListItemCommand}"
                 />
         </Grid>
 
@@ -63,6 +64,7 @@
             ItemsSource="{Binding ShopList}"
             EmptyView="No se han agregado productos"
             SelectionMode="Single"
+            SelectedItem="{Binding ElementoSeleccionado}"
             BackgroundColor="#f0f0f0"
             >
             <CollectionView.Header>
